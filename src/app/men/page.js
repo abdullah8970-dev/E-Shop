@@ -1,18 +1,28 @@
 // src/app/men/page.js
-import React from 'react'
+"use client";
+
+import React, { useState, useEffect } from 'react'
 import ProductCard from '../components/ProductCard'
 
 const MenPage = () => {
-  const products = [
-    { id: 1, title: "Men Fashion Item 1", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=1" },
-    { id: 2, title: "Men Fashion Item 2", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=2" },
-    { id: 3, title: "Men Fashion Item 3", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=3" },
-    { id: 4, title: "Men Fashion Item 4", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=4" },
-    { id: 5, title: "Men Fashion Item 5", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=5" },
-    { id: 6, title: "Men Fashion Item 6", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=6" },
-    { id: 7, title: "Men Fashion Item 7", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=7" },
-    { id: 8, title: "Men Fashion Item 8", description: "Premium Quality", price: 49.00, image: "https://images.unsplash.com/photo-1521334884684-d80222895322?sig=8" },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/getproducts?category=Men');
+        const data = await response.json();
+        setProducts(data.products || []);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -34,7 +44,10 @@ const MenPage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product._id}
+              product={product}
+            />
           ))}
         </div>
       </section>

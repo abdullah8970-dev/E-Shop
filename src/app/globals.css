@@ -24,3 +24,78 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+
+/* Hide scrollbar but keep scrolling functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none !important;  /* Chrome, Safari and Opera */
+}
+
+/* Alternative class for inline styles */
+.scroll-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Professional cart slide animation */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.cart-slide-in {
+  animation: slideInFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cart-slide-out {
+  animation: slideOutToRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.overlay-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.overlay-fade-out {
+  animation: fadeOut 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

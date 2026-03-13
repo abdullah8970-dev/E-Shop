@@ -1,8 +1,28 @@
 "use client";
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import ProductCard from '../components/ProductCard'
 
 function Productspage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/getproducts');
+        const data = await response.json();
+        setProducts(data.products || []);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
      <div className="bg-gray-50 min-h-screen">
 
@@ -41,54 +61,12 @@ function Productspage() {
       {/* Products Grid */}
       <section className="max-w-7xl mx-auto px-6 pb-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-
-          {[1,2,3,4,5,6,7,8].map((item) => (
-            <div
-              key={item}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden group"
-            >
-              <img
-                src={`https://images.unsplash.com/photo-1523275335684-37898b6baf30?sig=${item}`}
-                alt="Product"
-                className="h-72 w-full object-cover group-hover:scale-105 transition"
-              />
-
-              <div className="p-5">
-                <h3 className="font-semibold text-lg">
-                  Premium Product
-                </h3>
-                <p className="text-gray-500 text-sm mb-3">
-                  High quality material
-                </p>
-
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-lg">$79.00</span>
-                  <Link
-                    href="/product"
-                    className="bg-black text-white px-4 py-2 rounded-full text-sm hover:bg-gray-800"
-                  >
-                    View
-                  </Link>
-                </div>
-              </div>
-            </div>
+          {products.map((product) => (
+            <ProductCard
+              key={product.id || product._id}
+              product={product}
+            />
           ))}
-
-          <button
-  onClick={() =>
-    addToCart({
-      id: item, // ya product.id
-      title: "Premium Product",
-      price: 79,
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-    })
-  }
-  className="bg-black text-white px-4 py-2 rounded-full text-sm hover:bg-gray-800"
->
-  Add to Cart
-</button>
-
-
         </div>
       </section>
 
